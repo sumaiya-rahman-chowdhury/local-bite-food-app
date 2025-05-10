@@ -13,6 +13,7 @@ router.post("/banner", upload.array("image", 3), (req, res) => {
     url: file.path,
     filename: file.filename,
   }));
+  
   res.status(200).json({
     images: uploadedImages,
     message: "Upload successful",
