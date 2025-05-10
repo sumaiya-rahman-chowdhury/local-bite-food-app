@@ -7,8 +7,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 interface image {
   url: string;
+  alt:string
 }
-function Banner({ images }: image[]) {
+interface images {
+  images: image[];
+}
+function Banner({ images }: images) {
   return (
     <Swiper
       navigation={true}
@@ -18,11 +22,15 @@ function Banner({ images }: image[]) {
       className="mySwiper"
     >
       {images.map((image) => {
-        return <SwiperSlide className="">
-            <Image
-            
+        return (
+          <SwiperSlide className="h-full relative">
+            <Image 
+            fill
+            src={image.url}
+            alt={image.alt}
             />
-        </SwiperSlide>;
+          </SwiperSlide>
+        );
       })}
     </Swiper>
   );
