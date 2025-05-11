@@ -6,6 +6,7 @@ import { Navigation, EffectFade } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 interface image {
+  id: string;
   url: string;
   alt:string
 }
@@ -23,7 +24,7 @@ function Banner({ images }: images) {
     >
       {images.map((image) => {
         return (
-          <SwiperSlide className="h-full relative">
+          <SwiperSlide className="h-full relative" key={image.id}>
             <Image 
             fill
             src={image.url}

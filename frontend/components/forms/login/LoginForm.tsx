@@ -1,36 +1,48 @@
 "use client";
 
-import { useActionState } from "react";
-import { loginAction } from "@/lib/auth";
+import { useState } from "react";
+import { login } from "@/lib/auth";
+import { LoginFormData } from "@/lib/types";
+import { useForm } from "react-hook-form";
+import { getAxiosErrorMessage } from "@/lib/shared/handleError";
 
 export default function LoginForm() {
-  const [state, formAction, isPending] = useActionState(loginAction, undefined);
+  const [serverError, setServerError] = useState("");
+
+  const {
+    register: formRegister,
+    handleSubmit,
+    formState: { errors, isSubmitSuccessful },
+  } = useForm<LoginFormData>();
+
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      setServerError(""); // clear previous error
+      const res = await login(data);
+      console.log("Logged in:", res);
+    } catch (err: unknown) {
+      setServerError(getAxiosErrorMessage(err, "Login failed"));
+    }
+  };
 
   return (
-    <form action={formAction}>
-      <h2 className="text-xl font-semibold">Login</h2>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...formRegister("email")} type="email" placeholder="Email" />
+      {errors.email && <p>{errors.email.message}</p>}
 
-      <div>
-        <label>Email</label>
-        <input name="email" type="email" required className="border p-2" />
-      </div>
+      <input
+        {...formRegister("password")}
+        type="password"
+        placeholder="Password"
+      />
+      {errors.password && <p>{errors.password.message}</p>}
 
-      <div>
-        <label>Password</label>
-        <input
-          name="password"
-          type="password"
-          required
-          className="border p-2"
-        />
-      </div>
+      <button type="submit">Login</button>
 
-      {state?.error && <p className="text-red-500">{state.error}</p>}
-      {state?.success && <p className="text-green-600">Login successful!</p>}
+      {/* Show server error if exists */}
+      {serverError && <p style={{ color: "red" }}>{serverError}</p>}
 
-      <button disabled={isPending}>
-        {isPending ? "Logging in..." : "Login"}
-      </button>
+      {isSubmitSuccessful && !serverError && <p>Login Successful</p>}
     </form>
   );
 }

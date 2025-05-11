@@ -1,22 +1,14 @@
 import { AxiosError } from "axios";
 
-export type ActionError = {
-  success: false;
-  error: string;
-};
-
-export function handleActionError(error: unknown, fallbackMessage = "Something went wrong"): ActionError {
+export function getAxiosErrorMessage(
+  error: unknown,
+  fallback = "Something went wrong"
+): string {
   if (error instanceof AxiosError) {
-    const message =
-      error.response?.data?.message ||
-      error.message ||
-      fallbackMessage;
-    return { success: false, error: message };
+    const message = error.response?.data?.message;
+    if (typeof message === "string") {
+      return message;
+    }
   }
-
-  if (error instanceof Error) {
-    return { success: false, error: error.message || fallbackMessage };
-  }
-
-  return { success: false, error: fallbackMessage };
+  return fallback;
 }
