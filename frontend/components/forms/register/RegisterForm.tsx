@@ -5,9 +5,11 @@ import { RegisterFormData } from "@/lib/types";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { registerAction } from "@/lib/auth";
+import { useRouter } from "next/navigation";
 
 function RegisterForm() {
   const [serverError, setServerError] = useState("");
+  const router = useRouter();
 
   const {
     register,
@@ -20,6 +22,7 @@ function RegisterForm() {
       setServerError("");
       const res = await registerAction(data);
       console.log("Logged in:", res);
+      router.push("/login");
     } catch (err: unknown) {
       setServerError(getAxiosErrorMessage(err, "Login failed"));
     }

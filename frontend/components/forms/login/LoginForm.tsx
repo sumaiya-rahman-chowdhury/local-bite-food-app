@@ -5,9 +5,11 @@ import { login } from "@/lib/auth";
 import { LoginFormData } from "@/lib/types";
 import { useForm } from "react-hook-form";
 import { getAxiosErrorMessage } from "@/lib/shared/handleError";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const [serverError, setServerError] = useState("");
+  const router = useRouter();
 
   const {
     register: formRegister,
@@ -19,7 +21,12 @@ export default function LoginForm() {
     try {
       setServerError(""); // clear previous error
       const res = await login(data);
-      console.log("Logged in:", res);
+      // console.log("Logged in:", res);
+      const { token, user } = res;
+      console.log(token, user);
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", JSON.stringify(token));
+      router.push("/");
     } catch (err: unknown) {
       setServerError(getAxiosErrorMessage(err, "Login failed"));
     }

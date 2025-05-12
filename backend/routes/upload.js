@@ -20,28 +20,34 @@ router.get("/banner", async (req, res) => {
   }
 });
 
-router.post("/banner", upload.array("image", 3), async (req, res) => {
-  if (!req.files || req.files.length === 0) {
-    return res.status(400).json({ error: "Upload failed" });
-  }
-  const uploadedImages = req.files.map((file) => ({
-    url: file.path,
-    filename: file.filename,
-  }));
-  try {
-    const newBanner = new Banner({ images: uploadedImages });
-    await newBanner.save();
+router.post(
+  "/banner",
+  verifyToken,
+  verifyRole("admin"),
+  upload.array("image", 3),
+  async (req, res) => {
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ error: "Upload failed" });
+    }
+    const uploadedImages = req.files.map((file) => ({
+      url: file.path,
+      filename: file.filename,
+    }));
+    try {
+      const newBanner = new Banner({ images: uploadedImages });
+      await newBanner.save();
 
-    res.status(200).json({
-      images: uploadedImages,
-      message: "Upload successful and saved to DB",
-    });
-  } catch (err) {
-    res
-      .status(500)
-      .json({ error: "Failed to save to DB", details: err.message });
+      res.status(200).json({
+        images: uploadedImages,
+        message: "Upload successful and saved to DB",
+      });
+    } catch (err) {
+      res
+        .status(500)
+        .json({ error: "Failed to save to DB", details: err.message });
+    }
   }
-});
+);
 
 router.put(
   "/banner/:id",
