@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import { storage } from "../config/cloudinary.js";
+import { storage, uploadImageToCloudinary } from "../config/cloudinary.js";
 import Banner from "../models/uploads/Banner.js";
 import { cloudinary } from "../config/cloudinary.js";
 import { verifyToken } from "../middleares/verifyToken.js";
@@ -81,5 +81,14 @@ router.put(
     }
   }
 );
+router.post("/profile-picture",verifyToken, upload.single("file"), async (req, res) => {
+  try {
+    const file = req.file;
+    const result = await uploadImageToCloudinary(file.path);
+    res.json({ url: result.secure_url });
+  } catch (err) {
+    res.status(500).json({ message: "Upload failed" });
+  }
+});
 
 export default router;

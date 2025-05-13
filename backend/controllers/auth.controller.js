@@ -20,12 +20,10 @@ export const registerUser = async (req, res) => {
       expiresIn: "30d",
     });
 
-    res
-      .status(201)
-      .json({
-        token,
-        user: { id: newUser._id, name: newUser.name, email: newUser.email },
-      });
+    res.status(201).json({
+      token,
+      user: { id: newUser._id, name: newUser.name, email: newUser.email },
+    });
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }
@@ -42,17 +40,25 @@ export const loginUser = async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "30d",
     });
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-    });
-    res.json({
-      token,
-      user: { id: user._id, name: user.name, email: user.email },
-    });
+    return res
+      .cookie("access_token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None",
+        maxAge: 1000 * 60 * 60 * 24,
+      })
+      .status(200)
+      .json({ message: "Logged in successfully 😊 👌",token,user });
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }
+};
+
+export const logoutUser = async (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "none",
+    secure: process.env.NODE_ENV === "production",
+  });
+  res.json({ message: "Logged out successfully" });
 };

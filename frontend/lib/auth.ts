@@ -33,3 +33,15 @@ export const login = async (data: LoginFormData) => {
     throw error;
   }
 };
+
+export const logout = async () => {
+  try {
+    const response = await API.post("/auth/logout",{
+      withCredentials:true
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Login error:", getAxiosErrorMessage(error, "LogOut failed"));
+    throw error;
+  }
+};

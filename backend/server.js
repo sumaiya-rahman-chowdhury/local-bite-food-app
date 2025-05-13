@@ -3,22 +3,22 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
-import morgan from "morgan";
 import authRoutes from "./routes/auth.routes.js";
 import uploadRoutes from "./routes/upload.js";
+import profileRoutes from "./routes/profile.js";
+
 
 dotenv.config();
 
 connectDB();
 const app = express();
+app.use(cookieParser());
 app.use(
   cors({
     origin: "http://localhost:3000",
     credentials: true,
   })
 );
-app.use(cookieParser());
-
 app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
@@ -26,6 +26,8 @@ const PORT = process.env.PORT || 5000;
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/upload-images", uploadRoutes);
+app.use("/api/profile", profileRoutes)
+
 
 // Root route
 app.get("/", (req, res) => {

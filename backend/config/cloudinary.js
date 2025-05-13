@@ -1,7 +1,7 @@
 // config/cloudinary.js
-import { v2 as cloudinary } from 'cloudinary';
-import { CloudinaryStorage } from 'multer-storage-cloudinary';
-import dotenv from 'dotenv';
+import { v2 as cloudinary } from "cloudinary";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -14,9 +14,12 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder: 'local-bite-assets', 
-    allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+    folder: "local-bite-assets",
+    allowed_formats: ["jpg", "jpeg", "png", "webp"],
   },
 });
+export const uploadImageToCloudinary = async (filePath) => {
+  return await cloudinary.uploader.upload(filePath);
+};
 
 export { cloudinary, storage };

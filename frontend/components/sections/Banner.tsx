@@ -1,7 +1,5 @@
 "use client";
-import API_URL from "@/lib/static/static";
 import Image from "next/image";
-import { useState } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation, EffectFade } from "swiper/modules";
