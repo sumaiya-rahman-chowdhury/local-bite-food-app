@@ -30,7 +30,9 @@ const Navbar = () => {
   const navigation = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
-    { name: "Dashboard", href: "/dashboard" },
+    ...(user?.role === "admin"
+      ? [{ name: "Dashboard", href: "/dashboard" }]
+      : []),
   ];
 
   return (
