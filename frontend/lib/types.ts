@@ -1,5 +1,5 @@
 export interface User {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   role: string;
@@ -14,19 +14,24 @@ export type RegisterFormData = {
   email: string;
   password: string;
 };
-
-export interface Profile extends User {
+export type ProfileCompletion = {
+  profileComplete: boolean;
+};
+export interface UserProfile extends User {
   phone?: string;
   avatarUrl?: string;
   location?: string;
-  district?:
-    | {
-        _id: string;
-        name: string;
-      }
-    | string;
+  district?: {
+    _id: string;
+    name: string;
+  };
+
   specificLocation?: string;
   createdAt?: string;
   updatedAt?: string;
   stars?: number;
 }
+export type Profile = {
+  user: UserProfile;
+  profileComplete: ProfileCompletion;
+};

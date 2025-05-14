@@ -25,7 +25,7 @@ export default function LoginForm() {
       const res = await login(data);
       console.log("Logged in:", res);
       const { token, user } = res;
-      console.log(token, user);
+      // console.log(token, user);
       setUser(user);
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("token", JSON.stringify(token));

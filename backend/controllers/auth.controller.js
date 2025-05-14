@@ -40,15 +40,16 @@ export const loginUser = async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "30d",
     });
-    return res
-      .cookie("access_token", token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
-        maxAge: 1000 * 60 * 60 * 24,
-      })
-      .status(200)
-      .json({ message: "Logged in successfully 😊 👌",token,user });
+    res.cookie("token", token, {
+      httpOnly: true,
+      // secure: false,
+      // sameSite: "lax",
+      // maxAge: 1000 * 60 * 60 * 24,
+    });
+    return res.status(200).json({
+      token,
+      user,
+    });
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }
@@ -57,8 +58,10 @@ export const loginUser = async (req, res) => {
 export const logoutUser = async (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
-    sameSite: "none",
-    secure: process.env.NODE_ENV === "production",
+    // sameSite: "None",
+    // secure: process.env.NODE_ENV === "production",
+    // path: "/",
   });
+
   res.json({ message: "Logged out successfully" });
 };

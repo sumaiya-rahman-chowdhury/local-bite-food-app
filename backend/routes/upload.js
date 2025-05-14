@@ -81,7 +81,7 @@ router.put(
     }
   }
 );
-router.post("/profile-picture",verifyToken, upload.single("file"), async (req, res) => {
+router.post("/profile-picture", upload.single("avatar"), async (req, res) => {
   try {
     const file = req.file;
     const result = await uploadImageToCloudinary(file.path);

@@ -1,18 +1,28 @@
-// import UserProfile from "@/components/profile/ProfileCard";
-// import { getProfile } from "@/lib/api/profile/profile";
+import UserProfile from "@/components/profile/ProfileCard";
+import { AuthToken } from "@/lib/cookie";
 import API_URL from "@/lib/static/static";
-// import axios from "axios";
+import { cookies } from "next/headers";
 
-async function page() {
-  const profile = await fetch(`${API_URL}/profile`, {
+export default async function page() {
+  // const cookieStorie = await cookies();
+  // console.log(cookieStorie);
+  // const token = cookieStorie.get("token")?.value;
+  const token = await AuthToken();
+  const profileRes = await fetch(`${API_URL}/profile`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
     credentials: "include",
-  })
+  });
+  const profile = await profileRes.json();
   console.log(profile);
+
   return (
     <div>
-      {/* <UserProfile profile={profile} /> */}
+      <UserProfile profile={profile} />{" "}
     </div>
   );
 }
 
-export default page;
+// export default page;

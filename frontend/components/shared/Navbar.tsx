@@ -100,22 +100,26 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Nav Links */}
-      {mobileMenuOpen && (
-        <div className="md:hidden px-4 pb-4 space-y-2">
-          {navigation.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className="block text-sm font-medium hover:text-primary"
-            >
-              {item.name}
-            </a>
-          ))}
-          <Button variant="outline" className="w-full" onClick={handleLogout}>
-            Logout
-          </Button>
-        </div>
-      )}
+      <div
+        className={`md:hidden px-4 pb-4 space-y-2 overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out ${
+          mobileMenuOpen
+            ? "max-h-screen opacity-100 pointer-events-auto"
+            : "max-h-0 opacity-0 pointer-events-none"
+        }`}
+      >
+        {navigation.map((item) => (
+          <a
+            key={item.name}
+            href={item.href}
+            className="block text-sm font-medium hover:text-primary"
+          >
+            {item.name}
+          </a>
+        ))}
+        <Button variant="outline" className="w-full" onClick={handleLogout}>
+          Logout
+        </Button>
+      </div>
     </header>
   );
 };
