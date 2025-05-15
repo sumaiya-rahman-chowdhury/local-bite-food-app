@@ -9,8 +9,8 @@ export const API = axios.create({
 
 export const registerAction = async (data: RegisterFormData) => {
   try {
-    const response = await API.post("/auth/register", data,{
-      withCredentials:true
+    const response = await API.post("/auth/register", data, {
+      withCredentials: true,
     });
     return response.data;
   } catch (error) {
@@ -24,8 +24,8 @@ export const registerAction = async (data: RegisterFormData) => {
 
 export const login = async (data: LoginFormData) => {
   try {
-    const response = await API.post("/auth/login", data,{
-      withCredentials:true
+    const response = await API.post("/auth/login", data, {
+      withCredentials: true,
     });
     return response.data;
   } catch (error) {
@@ -36,7 +36,7 @@ export const login = async (data: LoginFormData) => {
 
 export const logout = async () => {
   try {
-    const response = await API.post("/auth/logout",{
+    const response = await axios.get(`${API_URL}/auth/logout`,{
       withCredentials:true
     });
     return response.data;

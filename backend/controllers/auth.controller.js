@@ -56,12 +56,14 @@ export const loginUser = async (req, res) => {
 };
 
 export const logoutUser = async (req, res) => {
-  res.clearCookie("token", {
+  console.log("Logout Succesfully");
+  const token = " ";
+  res.cookie("token", token, {
     httpOnly: true,
-    // sameSite: "None",
-    // secure: process.env.NODE_ENV === "production",
-    // path: "/",
+    // secure: false,
+    // sameSite: "lax",
+    // maxAge: 1000 * 60 * 60 * 24,
+    expires: new Date(0),
   });
-
-  res.json({ message: "Logged out successfully" });
+  res.status(200).json({ message: "Logout Succesfully" });
 };

@@ -25,6 +25,9 @@ interface UserProfileProps {
 const UserProfile: React.FC<UserProfileProps> = ({ profile }) => {
   const { user, profileComplete } = profile;
   const router = useRouter();
+  // if (!user) {
+  //   router.push("/login");
+  // }
 
   return (
     <div className="max-w-5xl mx-auto p-6">
@@ -55,13 +58,15 @@ const UserProfile: React.FC<UserProfileProps> = ({ profile }) => {
       <Card className="p-8 shadow-md rounded-xl border border-gray-100">
         <div className="flex flex-col md:flex-row items-start gap-8">
           <div className="relative">
-            <Image
-              src={user.avatarUrl || "/default-avatar.png"}
-              alt={user.name}
-              width={140}
-              height={140}
-              className="rounded-xl object-cover border-4 border-[#FF8C42] shadow-md"
-            />
+            {user && (
+              <Image
+                src={user?.avatarUrl || " "}
+                alt={user?.name}
+                width={140}
+                height={140}
+                className="rounded-xl object-cover border-4 border-[#FF8C42] shadow-md bg-black"
+              />
+            )}
             <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-[#4A8B2C] text-white px-3 py-1 rounded-full flex items-center shadow-md">
               <StarIcon className="h-4 w-4 mr-1 fill-current" />
               <span className="text-sm font-medium">
@@ -74,18 +79,18 @@ const UserProfile: React.FC<UserProfileProps> = ({ profile }) => {
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
               <div>
                 <h2 className="text-3xl font-bold text-gray-800">
-                  {user.name}
+                  {user?.name}
                 </h2>
                 <div className="flex items-center gap-2 mt-1">
                   <Badge
                     variant="outline"
                     className="border-[#4A8B2C] text-[#4A8B2C]"
                   >
-                    {user.role}
+                    {user?.role}
                   </Badge>
                   <span className="text-sm text-gray-500 flex items-center">
                     <MapPinIcon className="h-4 w-4 mr-1" />
-                    {user.location}
+                    {user?.location}
                   </span>
                 </div>
               </div>
@@ -133,13 +138,15 @@ const UserProfile: React.FC<UserProfileProps> = ({ profile }) => {
               <div>
                 <p className="text-sm text-gray-500">Role</p>
                 <p className="font-medium">
-                  {user.type === "hotel-owner" ? "Food Donor" : "Food Receiver"}
+                  {user?.type === "hotel-owner"
+                    ? "Food Donor"
+                    : "Food Receiver"}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-gray-500">District</p>
                 <p className="font-medium">
-                  {user.district?.name || "Not specified"}
+                  {user?.district?.name || "Not specified"}
                 </p>
               </div>
             </div>
@@ -153,21 +160,21 @@ const UserProfile: React.FC<UserProfileProps> = ({ profile }) => {
             <div className="space-y-3">
               <div>
                 <p className="text-sm text-gray-500">Phone</p>
-                <p className="font-medium">{user.phone || "Not provided"}</p>
+                <p className="font-medium">{user?.phone || "Not provided"}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-500">Email</p>
                 <a
-                  href={`mailto:${user.email}`}
+                  href={`mailto:${user?.email}`}
                   className="font-medium text-[#FF8C42] hover:underline"
                 >
-                  {user.email}
+                  {user?.email}
                 </a>
               </div>
               <div>
                 <p className="text-sm text-gray-500">Address</p>
                 <p className="font-medium">
-                  {user.specificLocation || user.location || "Not specified"}
+                  {user?.specificLocation || user?.location || "Not specified"}
                 </p>
               </div>
             </div>
@@ -192,7 +199,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ profile }) => {
                 <p className="text-sm text-gray-500 mb-2">Skills/Interests</p>
                 <div className="flex flex-wrap gap-2">
                   <Badge className="bg-[#FF8C42]/10 text-[#FF8C42]">
-                    {user.type === "hotel-owner"
+                    {user?.type === "hotel-owner"
                       ? "Food Preparation"
                       : "Food Distribution"}
                   </Badge>

@@ -1,12 +1,9 @@
 import UserProfile from "@/components/profile/ProfileCard";
 import { AuthToken } from "@/lib/cookie";
 import API_URL from "@/lib/static/static";
-import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default async function page() {
-  // const cookieStorie = await cookies();
-  // console.log(cookieStorie);
-  // const token = cookieStorie.get("token")?.value;
   const token = await AuthToken();
   const profileRes = await fetch(`${API_URL}/profile`, {
     headers: {
@@ -17,7 +14,9 @@ export default async function page() {
   });
   const profile = await profileRes.json();
   console.log(profile);
-
+  if (!profile || !profile.user) {
+    redirect("/login");
+  }
   return (
     <div>
       <UserProfile profile={profile} />{" "}

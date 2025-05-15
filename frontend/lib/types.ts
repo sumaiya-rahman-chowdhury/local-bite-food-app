@@ -25,7 +25,6 @@ export interface UserProfile extends User {
     _id: string;
     name: string;
   };
-
   specificLocation?: string;
   createdAt?: string;
   updatedAt?: string;

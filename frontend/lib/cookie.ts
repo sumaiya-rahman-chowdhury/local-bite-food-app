@@ -5,3 +5,4 @@ export const AuthToken = async (): Promise<string | undefined> => {
   const token = cookieStore.get("token")?.value;
   return token;
 };
+

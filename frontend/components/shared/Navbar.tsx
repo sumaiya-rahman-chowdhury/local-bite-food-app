@@ -21,6 +21,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
     const res = await logout();
     setUser(null);
     alert(res.message);
