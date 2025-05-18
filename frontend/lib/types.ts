@@ -3,6 +3,7 @@ export interface User {
   name: string;
   email: string;
   role: string;
+  avatarUrl?: string;
   type: "buyer" | "hotel-owner";
 }
 export type LoginFormData = {
@@ -19,7 +20,6 @@ export type ProfileCompletion = {
 };
 export interface UserProfile extends User {
   phone?: string;
-  avatarUrl?: string;
   location?: string;
   district?: {
     _id: string;

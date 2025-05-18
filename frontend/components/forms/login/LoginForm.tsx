@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { getAxiosErrorMessage } from "@/lib/shared/handleError";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
+import { setCookie } from "@/lib/cookie";
 
 export default function LoginForm() {
   const { setUser } = useAuth();
@@ -28,6 +29,7 @@ export default function LoginForm() {
       // console.log(token, user);
       setUser(user);
       localStorage.setItem("user", JSON.stringify(user));
+      await setCookie(token)
       localStorage.setItem("token", JSON.stringify(token));
       router.push("/");
     } catch (err: unknown) {

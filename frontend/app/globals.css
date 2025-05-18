@@ -116,6 +116,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -124,6 +125,7 @@
 #app {
   height: 100%;
 }
+
 html,
 body {
   position: relative;
@@ -131,7 +133,7 @@ body {
 }
 
 body {
-  background: #eee;
+  /* background: #eee; */
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   font-size: 14px;
   color: #000;
@@ -142,6 +144,9 @@ body {
 .swiper {
   width: 100%;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .swiper-slide {
@@ -162,3 +167,24 @@ body {
   object-fit: cover;
 }
 
+.swiper-button-prev,
+.swiper-button-next {
+  --swiper-navigation-color: orange;              /* Icon color */
+  --swiper-navigation-size: 1.75rem;              /* Icon size */
+  background-color: #a8f0c6;                      /* Greenish background */
+  width: 70px !important;
+  height: 70px !important;
+  border-radius: 9999px;                          /* Fully rounded circle */
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Optional: dark mode support */
+.dark .swiper-button-prev,
+.dark .swiper-button-next {
+  background-color: #246b4c;                      /* Dark greenish */
+  --swiper-navigation-color: #ffa500;             /* Brighter orange for dark mode */
+}

@@ -90,5 +90,13 @@ router.post("/profile-picture", upload.single("avatar"), async (req, res) => {
     res.status(500).json({ message: "Upload failed" });
   }
 });
-
+router.post("/food-picture",verifyToken, upload.single("image"), async (req, res) => {
+  try {
+    const file = req.file;
+    const result = await uploadImageToCloudinary(file.path);
+    res.json({ url: result.secure_url });
+  } catch (err) {
+    res.status(500).json({ message: "Upload failed" });
+  }
+});
 export default router;

@@ -13,6 +13,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { logout } from "@/lib/auth";
 import { useAuth } from "@/hooks/useAuth";
+import { clearSession } from "@/lib/cookie";
 
 const Navbar = () => {
   const { user, setUser } = useAuth();
@@ -22,6 +23,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
+    await clearSession()
     const res = await logout();
     setUser(null);
     alert(res.message);
@@ -34,6 +36,7 @@ const Navbar = () => {
     ...(user?.role === "admin"
       ? [{ name: "Dashboard", href: "/dashboard" }]
       : []),
+  { name: "Post Food", href: "/food-marketplace/post" }    
   ];
 
   return (
@@ -60,7 +63,7 @@ const Navbar = () => {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src="/avatar.png" alt="user avatar" />
+                    <AvatarImage src={user.avatarUrl} alt="user avatar" />
                     <AvatarFallback>
                       {user?.name?.charAt(0) || "U"}
                     </AvatarFallback>

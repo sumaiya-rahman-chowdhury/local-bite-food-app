@@ -10,7 +10,7 @@ export default async function page() {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-    credentials: "include",
+    // credentials: "include",
   });
   const profile = await profileRes.json();
   console.log(profile);
