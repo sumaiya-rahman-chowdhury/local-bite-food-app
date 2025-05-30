@@ -5,6 +5,9 @@ import { getAxiosErrorMessage } from "./shared/handleError";
 
 export const API = axios.create({
   baseURL: API_URL,
+  headers:{
+    
+  }
 });
 
 export const registerAction = async (data: RegisterFormData) => {

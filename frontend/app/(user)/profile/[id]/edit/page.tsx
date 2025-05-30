@@ -13,6 +13,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { DistrictType, fetchDistricts } from "@/lib/api/district.ts/fetch";
 import Loading from "@/components/loading/Loading";
 import { Loader2Icon, UploadIcon, UserIcon } from "lucide-react";
+import { AuthToken } from "@/lib/cookie";
 
 interface FormValues {
   name: string;
@@ -42,7 +43,11 @@ export default function EditProfilePage() {
   useEffect(() => {
     if (id) {
       const fetchUser = async () => {
+        const token = await AuthToken();
         const res = await axios.get(`${API_URL}/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           withCredentials: true,
         });
         const user = res.data.user;

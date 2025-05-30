@@ -15,6 +15,7 @@ import {
   PhoneIcon,
   StarIcon,
   Triangle,
+  User,
   UserIcon,
 } from "lucide-react";
 
@@ -57,10 +58,10 @@ const UserProfile: React.FC<UserProfileProps> = ({ profile }) => {
 
       <Card className="p-8 shadow-md rounded-xl border border-gray-100">
         <div className="flex flex-col md:flex-row items-start gap-8">
-          <div className="relative">
-            {user && (
+          <div className="relative w-[140px] h-[140px] bg-black rounded-xl border-4 border-[#FF8C42]">
+            {user.avatarUrl && (
               <Image
-                src={user?.avatarUrl || " "}
+                src={user?.avatarUrl}
                 alt={user?.name}
                 width={140}
                 height={140}

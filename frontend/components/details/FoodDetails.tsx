@@ -1,3 +1,4 @@
+"use client";
 import {
   Clock,
   MapPin,
@@ -7,11 +8,20 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { FoodPost } from "../cards/foods-card/FoodCard";
+import { useState } from "react";
+// import axios from "axios";
+// import API_URL from "@/lib/static/static";
+// import { AuthToken } from "@/lib/cookie";
+import { handleRequest } from "@/lib/api/request/handleReq";
+import axios from "axios";
+import API_URL from "@/lib/static/static";
+import { AuthToken } from "@/lib/cookie";
 
 interface FoodDetailsType {
   food: FoodPost;
 }
 export default function FoodPostDetails({ food }: FoodDetailsType) {
+  const [loading, setLoading] = useState(false);
   // Format date to relative time (e.g., "2 hours ago")
   const formatTime = (dateString: string) => {
     const now = new Date();
@@ -19,10 +29,29 @@ export default function FoodPostDetails({ food }: FoodDetailsType) {
     const diffHours = Math.floor(
       (now.getTime() - postedDate.getTime()) / (1000 * 60 * 60)
     );
-
     if (diffHours < 1) return "Just now";
     if (diffHours < 24) return `${diffHours} hours ago`;
     return `${Math.floor(diffHours / 24)} days ago`;
+  };
+  const handlePay = async (food: FoodPost) => {
+    const token = await AuthToken();
+    try {
+      const res = await axios.post(
+        `${API_URL}/payment/create-checkout-session`,
+        {
+          cartItems: [food],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      window.location.href = res.data.url;
+    } catch (err) {
+      console.error("Payment initiation failed", err);
+      alert("Something went wrong while starting payment.");
+    }
   };
 
   return (
@@ -150,15 +179,27 @@ export default function FoodPostDetails({ food }: FoodDetailsType) {
 
               {/* Action Button */}
               <button
-                className={`w-full py-3 px-4 rounded-lg font-medium ${
-                  food.type === "donation"
+                onClick={() => {
+                  if (food.type === "donation") {
+                    handleRequest(food, setLoading);
+                  } else {
+                    handlePay(food);
+                  }
+                }}
+                disabled={loading}
+                className={`w-full py-3 px-4 rounded-lg font-medium transition ${
+                  loading
+                    ? "bg-gray-400 text-white cursor-not-allowed"
+                    : food.type === "donation"
                     ? "bg-green-600 hover:bg-green-700 text-white"
                     : "bg-orange-600 hover:bg-orange-700 text-white"
                 }`}
               >
-                {food.type === "donation"
+                {loading
+                  ? "Processing..."
+                  : food.type === "donation"
                   ? "Request This Food"
-                  : "Purchase for ₹150"}
+                  : `Purchase for ${food.price} BDT`}
               </button>
 
               {/* Safety Tips */}

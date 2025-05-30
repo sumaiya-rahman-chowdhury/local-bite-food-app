@@ -2,14 +2,23 @@ import Food from "../models/food.model.js";
 
 export const createFoodPost = async (req, res) => {
   try {
-    const { imageUrl, quantity, type, title, description } = req.body;
-
+    const { imageUrl, quantity, type, title, description, price } = req.body;
+    console.log(
+      imageUrl,
+      quantity,
+      type,
+      title,
+      description,
+      price,
+      req.user.id
+    );
     const newPost = await Food.create({
       imageUrl,
       quantity,
       type,
       title,
       description,
+      price,
       postedBy: req.user.id,
     });
 
@@ -38,7 +47,7 @@ export const getFoodPost = async (req, res) => {
     const skip = (parseInt(page) - 1) * parseInt(limit);
 
     const foodPosts = await Food.find(filter)
-      .populate("postedBy", "name email")
+      .populate("postedBy", "name email avatarUrl")
       .skip(skip)
       .limit(parseInt(limit))
       .sort({ createdAt: -1 });

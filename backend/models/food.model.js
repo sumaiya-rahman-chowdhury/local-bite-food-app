@@ -31,6 +31,13 @@ const foodSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    price: {
+      type: Number,
+      required: function () {
+        return this.type === "paid";
+      },
+      min: 0,
+    },
   },
   { timestamps: true }
 );

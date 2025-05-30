@@ -1,4 +1,5 @@
 "use client";
+import { AuthToken } from "@/lib/cookie";
 import API_URL from "@/lib/static/static";
 import axios from "axios";
 import { Loader2Icon, UploadIcon } from "lucide-react";
@@ -12,6 +13,7 @@ type FormValues = {
   type: "paid" | "donation";
   title: string;
   description: string;
+  price: number;
 };
 
 const FoodPostForm = () => {
@@ -21,9 +23,11 @@ const FoodPostForm = () => {
     handleSubmit,
     reset,
     watch,
-    formState: { errors,isSubmitting },
+    formState: { errors, isSubmitting },
   } = useForm<FormValues>();
   const onSubmit = async (data: FormValues) => {
+    const token = await AuthToken();
+    console.log(token);
     try {
       const imageFormData = new FormData();
       imageFormData.append("image", data.foodPic[0]);
@@ -31,7 +35,9 @@ const FoodPostForm = () => {
         `${API_URL}/upload-images/food-picture`,
         imageFormData,
         {
-          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       const uploadData = await uploadRes.data;
@@ -42,15 +48,34 @@ const FoodPostForm = () => {
       const imageUrl = uploadData.url;
       const foodCardData = {
         imageUrl,
-        quantity: data.quantity,
+        quantity: Number(data.quantity),
         type: data.type,
         title: data.title,
         description: data.description,
+        price: data.type === "paid" ? Number(data.price) : 0,
       };
-      const postRes = axios.post(`${API_URL}/food-marketplace/post`, foodCardData, {
-        withCredentials: true,
-      });
+      console.log(foodCardData);
+      const postRes = axios.post(
+        `${API_URL}/food-marketplace/post`,
+        foodCardData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
+      );
+      console.log(foodCardData);
 
+      // const postRes = await fetch(`${API_URL}/food-marketplace/post`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      //   credentials: "include",
+      //   body: JSON.stringify(foodCardData),
+      // });
       if (!postRes) {
         throw new Error("Failed to post food");
       }
@@ -189,6 +214,27 @@ const FoodPostForm = () => {
           </p>
         )}
       </div>
+      {/* Price (only shown if type is "paid") */}
+      {watch("type") === "paid" && (
+        <div>
+          <label className="block text-sm font-medium text-[#4A8B2C] mb-2">
+            Price (in ₹) <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="number"
+            {...register("price", {
+              required: watch("type") === "paid",
+              min: 1,
+            })}
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#FF8C42] focus:ring-[#FF8C42] px-4 py-2 border"
+            placeholder="e.g. 150"
+            min="1"
+          />
+          {errors.price && (
+            <p className="mt-1 text-sm text-red-600">Enter a valid price</p>
+          )}
+        </div>
+      )}
 
       {/* Submit Button */}
       <button

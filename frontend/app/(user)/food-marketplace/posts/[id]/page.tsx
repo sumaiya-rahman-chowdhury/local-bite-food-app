@@ -7,7 +7,7 @@ async function page({ params }: { params: Promise<{ id: string }> }) {
   //   console.log(id);
   const details = await axios.get(`${API_URL}/food-marketplace/post/${id}`);
   const food = await details.data;
-  console.log(food);
+  // console.log(food);
   return (
     <div>
       <FoodPostDetails food={food} />

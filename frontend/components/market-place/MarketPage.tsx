@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import FoodCard, { FoodPost } from "../cards/foods-card/FoodCard";
 import { ArrowRightIcon, ShoppingBagIcon } from "lucide-react";
+import { motion } from "framer-motion";
+import { cardVariants } from "@/lib/animate";
 
 export default function MarketPage() {
   const [foodCards, setFoodCards] = useState([]);
@@ -13,7 +15,7 @@ export default function MarketPage() {
   useEffect(() => {
     const data = async () => {
       const foodCard = await fetchMarketPlaceData();
-      console.log(foodCard.foodPosts);
+      // console.log(foodCard.foodPosts);
       setFoodCards(foodCard.foodPosts);
     };
     data();
@@ -37,8 +39,18 @@ export default function MarketPage() {
       {/* Food Cards Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {foodCards.slice(0, 8).map((foodCard: FoodPost) => (
-            <FoodCard key={foodCard._id} food={foodCard} />
+          {foodCards.slice(0, 8).map((foodCard: FoodPost, i) => (
+            <motion.div
+              key={foodCard._id}
+              className="w-full"
+              variants={cardVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              custom={i}
+            >
+              <FoodCard food={foodCard} />
+            </motion.div>
           ))}
         </div>
 

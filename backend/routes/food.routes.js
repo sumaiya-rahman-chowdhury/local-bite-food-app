@@ -5,6 +5,7 @@ import {
   getFoodDetails,
   getFoodPost,
 } from "../controllers/food.controller.js";
+
 const router = express.Router();
 
 router.get("/", getFoodPost);
