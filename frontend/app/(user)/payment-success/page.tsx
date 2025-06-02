@@ -2,16 +2,13 @@
 import { useCart } from "@/components/context providers/CartProvider";
 import { AuthToken } from "@/lib/cookie";
 import API_URL from "@/lib/static/static";
-import axios from "axios";
 import { motion } from "framer-motion";
 import { CheckCircle, ShoppingBag, Home, Package } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function PaymentSuccess() {
   const { setCart } = useCart();
-  const router = useRouter();
   useEffect(() => {
     const clearCartAfterPayment = async () => {
       try {
@@ -21,7 +18,7 @@ export default function PaymentSuccess() {
         //       Authorization: `Bearer ${token}`,
         //     },
         //   });
-        const res = await fetch(`http://localhost:5000/api/cart/clear-cart/`, {
+        const res = await fetch(`${API_URL}/cart/clear-cart/`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -36,7 +33,7 @@ export default function PaymentSuccess() {
     };
 
     clearCartAfterPayment();
-  }, []);
+  }, [setCart]);
   return (
     <motion.div
       initial={{ opacity: 0 }}

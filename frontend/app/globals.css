@@ -133,58 +133,34 @@ body {
 }
 
 body {
-  /* background: #eee; */
-  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  /* background: #000; */
+  font-family:
+    Helvetica Neue,
+    Helvetica,
+    Arial,
+    sans-serif;
   font-size: 14px;
-  color: #000;
+  color: #fff;
   margin: 0;
   padding: 0;
 }
 
 .swiper {
   width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 .swiper-slide {
-  text-align: center;
-  font-size: 18px;
-  background: #fff;
-
-  /* Center slide text vertically */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-position: center;
+  background-size: cover;
+  width: 400px !important;
+  height: 300px;
+  flex-shrink: 0;
+  /* background-color: transparent; */
 }
 
 .swiper-slide img {
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.swiper-button-prev,
-.swiper-button-next {
-  --swiper-navigation-color: orange;              /* Icon color */
-  --swiper-navigation-size: 1.75rem;              /* Icon size */
-  background-color: #a8f0c6;                      /* Greenish background */
-  width: 70px !important;
-  height: 70px !important;
-  border-radius: 9999px;                          /* Fully rounded circle */
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-/* Optional: dark mode support */
-.dark .swiper-button-prev,
-.dark .swiper-button-next {
-  background-color: #246b4c;                      /* Dark greenish */
-  --swiper-navigation-color: #ffa500;             /* Brighter orange for dark mode */
 }

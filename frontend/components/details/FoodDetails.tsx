@@ -16,6 +16,7 @@ import { handleRequest } from "@/lib/api/request/handleReq";
 import axios from "axios";
 import API_URL from "@/lib/static/static";
 import { AuthToken } from "@/lib/cookie";
+import Image from "next/image";
 
 interface FoodDetailsType {
   food: FoodPost;
@@ -55,14 +56,17 @@ export default function FoodPostDetails({ food }: FoodDetailsType) {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="max-w-4xl mx-auto px-4 py-8 text-black">
       {/* Food Image Header */}
       <div className="relative rounded-2xl overflow-hidden shadow-lg mb-6">
-        <img
-          src={food.imageUrl}
-          alt={food.title}
-          className="w-full h-96 object-cover"
-        />
+        <div className="relative w-full h-96 object-cover">
+          <Image
+            fill
+            src={food.imageUrl}
+            alt={food.title}
+            className="w-full h-96 object-cover"
+          />
+        </div>
         {/* Food Type Badge */}
         <div
           className={`absolute top-4 right-4 px-3 py-1 rounded-full text-sm font-semibold ${

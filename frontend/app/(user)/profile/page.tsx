@@ -5,15 +5,19 @@ import { redirect } from "next/navigation";
 
 export default async function page() {
   const token = await AuthToken();
+  if (!token) {
+    redirect("/login");
+  }
   const profileRes = await fetch(`${API_URL}/profile`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-    // credentials: "include",
+    cache: "no-store"
   });
   const profile = await profileRes.json();
   console.log(profile);
+  
   if (!profile || !profile.user) {
     redirect("/login");
   }

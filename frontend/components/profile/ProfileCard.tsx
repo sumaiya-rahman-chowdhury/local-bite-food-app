@@ -15,7 +15,6 @@ import {
   PhoneIcon,
   StarIcon,
   Triangle,
-  User,
   UserIcon,
 } from "lucide-react";
 

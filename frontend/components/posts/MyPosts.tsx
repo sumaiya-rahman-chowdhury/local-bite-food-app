@@ -13,6 +13,7 @@ import {
   UsersIcon,
   XIcon,
 } from "lucide-react";
+import Image from "next/image";
 type MyPostType = {
   posts: FoodPost[];
   requests: {
@@ -107,7 +108,8 @@ function MyPosts({ posts, requests }: MyPostType) {
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
                           {request.requester.avatarUrl ? (
-                            <img
+                            <Image
+                              fill
                               src={request.requester.avatarUrl}
                               alt={request.requester.name}
                               className="w-full h-full object-cover"

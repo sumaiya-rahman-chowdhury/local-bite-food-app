@@ -1,16 +1,16 @@
 "use client";
 import { motion, Variants } from "framer-motion";
 
-interface image {
-  id: string;
-  url: string;
-  alt: string;
-}
-interface images {
-  images: image[];
-}
+// interface image {
+//   id: string;
+//   url: string;
+//   alt: string;
+// }
+// interface images {
+//   images: image[];
+// }
 
-function Banner({ images }: images) {
+function Banner() {
   // Properly typed animation variants
   const container: Variants = {
     hidden: { opacity: 0 },
@@ -43,7 +43,7 @@ function Banner({ images }: images) {
       transition: {
         duration: 1.5,
         repeat: Infinity,
-        repeatType: "reverse" as const // Explicitly typed as allowed value
+        repeatType: "reverse" as const 
       }
     }
   };

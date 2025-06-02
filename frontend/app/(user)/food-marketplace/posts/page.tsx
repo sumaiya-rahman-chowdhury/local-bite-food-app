@@ -4,7 +4,7 @@ import Loading from "@/components/loading/Loading";
 import API_URL from "@/lib/static/static";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   Search as SearchIcon,
   ChevronDown as ChevronDownIcon,
@@ -17,52 +17,45 @@ const FoodList = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [foods, setFoods] = useState([]);
-  const [postedBy, setPostedBy] = useState("");
   const [search, setSearch] = useState("");
   const [type, setType] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    const updateURLParams = () => {
+      const params = new URLSearchParams();
+      if (search) params.set("search", search);
+      if (type) params.set("type", type);
+      params.append("page", page.toString());
+      params.append("limit", "10");
+      router.push(`/food-marketplace/posts?${params.toString()}`);
+    };
+
+    const fetchFoods = async () => {
+      try {
+        setLoading(true);
+        const queryParams = new URLSearchParams();
+        if (search) queryParams.append("search", search);
+        if (type) queryParams.append("type", type);
+        queryParams.append("page", page.toString());
+        queryParams.append("limit", "10");
+        const res = await axios.get(
+          `${API_URL}/food-marketplace/post?${queryParams.toString()}`,
+          { withCredentials: true }
+        );
+        setFoods(res.data.foodPosts);
+        setTotalPages(res.data.totalPages);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     updateURLParams();
     fetchFoods();
-  }, [search, type, page]);
+  }, [search, type, page, router]);
 
-  const updateURLParams = () => {
-    const params = new URLSearchParams();
-    if (search) params.set("search", search);
-    if (type) params.set("type", type);
-    if (postedBy) params.set("postedBy", postedBy);
-    params.append("page", page.toString());
-    params.append("limit", "10");
-    router.push(`/food-marketplace/posts?${params.toString()}`);
-  };
-
-  const fetchFoods = async () => {
-    try {
-      setLoading(true);
-      const queryParams = new URLSearchParams();
-      if (search) {
-        queryParams.append("search", search);
-      }
-      if (type) queryParams.append("type", type);
-      if (postedBy) queryParams.append("postedBy", postedBy);
-      queryParams.append("page", page.toString());
-      queryParams.append("limit", "10");
-      const res = await axios.get(
-        `${API_URL}/food-marketplace/post?${queryParams.toString()}`,
-        {
-          withCredentials: true,
-        }
-      );
-      setFoods(res.data.foodPosts);
-      setTotalPages(res.data.totalPages);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  // console.log(foods);
   return (
     <div className="mx-auto space-y-4">
       {/* Filters */}

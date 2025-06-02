@@ -91,7 +91,7 @@ const FoodPostForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="space-y-6 max-w-md mx-auto p-6 bg-white rounded-lg shadow-md"
+      className="space-y-6 max-w-md mx-auto p-6 bg-white rounded-lg shadow-md text-black"
     >
       {/* Food Picture */}
       <div>

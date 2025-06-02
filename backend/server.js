@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://your-frontend-domain.vercel.app",
+  "https://frontend-xi-bay-91.vercel.app",
 ];
 
 app.use(

@@ -8,6 +8,7 @@ import { getAxiosErrorMessage } from "@/lib/shared/handleError";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { setCookie } from "@/lib/cookie";
+import Link from "next/link";
 
 export default function LoginForm() {
   const { setUser } = useAuth();
@@ -29,7 +30,7 @@ export default function LoginForm() {
       // console.log(token, user);
       setUser(user);
       localStorage.setItem("user", JSON.stringify(user));
-      await setCookie(token)
+      await setCookie(token);
       localStorage.setItem("token", JSON.stringify(token));
       router.push("/");
     } catch (err: unknown) {
@@ -38,23 +39,53 @@ export default function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input {...formRegister("email")} type="email" placeholder="Email" />
-      {errors.email && <p>{errors.email.message}</p>}
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="text-black max-w-sm w-full mx-auto bg-white p-8 rounded-xl shadow-md space-y-6 border border-gray-200"
+    >
+      <h2 className="text-2xl font-bold text-gray-800 text-center">Login</h2>
 
-      <input
-        {...formRegister("password")}
-        type="password"
-        placeholder="Password"
-      />
-      {errors.password && <p>{errors.password.message}</p>}
+      <div>
+        <input
+          {...formRegister("email")}
+          type="email"
+          placeholder="Email"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
+        />
+        {errors.email && (
+          <p className="text-sm text-red-600 mt-1">{errors.email.message}</p>
+        )}
+      </div>
 
-      <button type="submit">Login</button>
+      <div>
+        <input
+          {...formRegister("password")}
+          type="password"
+          placeholder="Password"
+          className=" w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
+        />
+        {errors.password && (
+          <p className="text-sm text-red-600 mt-1">{errors.password.message}</p>
+        )}
+      </div>
 
-      {/* Show server error if exists */}
-      {serverError && <p style={{ color: "red" }}>{serverError}</p>}
+      <button
+        type="submit"
+        className="w-full bg-green-600 text-white font-medium py-2 rounded-lg hover:bg-green-700 transition-colors"
+      >
+        Login
+      </button>
 
-      {isSubmitSuccessful && !serverError && <p>Login Successful</p>}
+      {serverError && (
+        <p className="text-sm text-center text-red-600">{serverError}</p>
+      )}
+
+      {isSubmitSuccessful && !serverError && (
+        <p className="text-sm text-center text-green-600 font-medium">
+          Login Successful
+        </p>
+      )}
+      <Link href={"/register"}>New Here ? Register Now </Link>
     </form>
   );
 }

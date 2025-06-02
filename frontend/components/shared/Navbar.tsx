@@ -34,16 +34,20 @@ const Navbar = () => {
   const navigation = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
-    ...(user?.role === "admin" ? [{ name: "Dashboard", href: "/dashboard" }] : []),
+    ...(user?.role === "admin"
+      ? [{ name: "Dashboard", href: "/dashboard" }]
+      : []),
     { name: "Post Food", href: "/food-marketplace/post" },
   ];
 
   return (
-    <header className="bg-white border-b shadow-sm sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <header className="bg-white border-b shadow-sm">
+      <div className=" max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center space-x-2">
-          <span className="text-2xl font-bold text-primary">🍔 LocalBite</span>
+        <div className="">
+          <h1 className="text-2xl font-semibold text-gray-800">
+            Local <span className="text-green-600 font-bold">Bite</span>
+          </h1>
         </div>
 
         {/* Desktop Navigation */}
@@ -61,7 +65,11 @@ const Navbar = () => {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full hover:bg-gray-100">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-full hover:bg-gray-100 text-black"
+                >
                   <Avatar className="h-8 w-8">
                     <AvatarImage src={user.avatarUrl} alt="user avatar" />
                     <AvatarFallback>
@@ -75,8 +83,11 @@ const Navbar = () => {
                   <User className="mr-2 h-4 w-4" />
                   {user?.name || "User"}
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => router.push("/profile")}>
-                  <User className="mr-2 h-4 w-4" />
+                <DropdownMenuItem
+                  onClick={() => router.push("/profile")}
+                  className=""
+                >
+                  <User className="mr-2 h-4 w-4 text-black" />
                   Profile
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => router.push("/posts")}>
@@ -97,6 +108,7 @@ const Navbar = () => {
         {/* Mobile Menu Toggle */}
         <div className="md:hidden">
           <Button
+            className="text-black"
             variant="ghost"
             size="icon"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -112,8 +124,10 @@ const Navbar = () => {
 
       {/* Mobile Navigation */}
       <div
-        className={`md:hidden px-4 pb-4 space-y-3 transition-all duration-300 ease-in-out ${
-          mobileMenuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0 overflow-hidden"
+        className={`bg-white md:hidden px-4  space-y-3 transition-all duration-300 ease-in-out ${
+          mobileMenuOpen
+            ? "max-h-screen opacity-100"
+            : "max-h-0 opacity-0 overflow-hidden"
         }`}
       >
         {navigation.map((item) => (
@@ -130,21 +144,22 @@ const Navbar = () => {
           <>
             <Button
               variant="ghost"
-              className="w-full justify-start"
+              className="w-full justify-start text-gray-700 px-0"
               onClick={() => router.push("/profile")}
             >
-              <User className="mr-2 h-4 w-4" /> Profile
+              {" "}
+              Profile
             </Button>
             <Button
               variant="ghost"
-              className="w-full justify-start"
+              className="w-full justify-start text-gray-700 px-0"
               onClick={() => router.push("/posts")}
             >
-              <ListIcon className="mr-2 h-4 w-4" /> Food Posts
+              Food Posts
             </Button>
             <Button
               variant="outline"
-              className="w-full justify-start"
+              className="w-full  text-gray-700 mb-4"
               onClick={handleLogout}
             >
               <LogOut className="mr-2 h-4 w-4" /> Logout

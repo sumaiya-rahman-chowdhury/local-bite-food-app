@@ -6,14 +6,18 @@ import API_URL from "@/lib/static/static";
 import axios from "axios";
 import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const CheckoutPage = () => {
+  const router = useRouter();
   const { cart, setCart } = useCart();
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
   const { user } = useAuth();
-  // console.log(user);
+  if (!user) {
+    return router.push("/login");
+  }
 
   const increaseQty = async (item: CartItem) => {
     // if (item.quantity >= item.quantity) return;
@@ -72,7 +76,7 @@ const CheckoutPage = () => {
     const totalPrice = cart
       .filter((item) => selectedItems.includes(item._id))
       .reduce((total, item) => total + item.price * item.quantity, 0);
-    return totalPrice
+    return totalPrice;
   };
 
   const handleCheckout = async () => {

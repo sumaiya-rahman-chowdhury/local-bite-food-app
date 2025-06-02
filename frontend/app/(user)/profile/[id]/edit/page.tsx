@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm, Controller } from "react-hook-form";
+import { useForm} from "react-hook-form";
 import { useParams, useRouter } from "next/navigation"; // or 'next/navigation' for App Router
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -106,7 +106,7 @@ export default function EditProfilePage() {
   return (
     <div className="max-w-xl mx-auto p-6 bg-white rounded-lg shadow-sm">
       <h1 className="text-2xl font-bold mb-6 text-[#FF8C42]">Edit Profile</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 text-black">
         {/* Name & Phone - Top Row */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>

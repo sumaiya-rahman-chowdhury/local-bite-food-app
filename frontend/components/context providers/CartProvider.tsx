@@ -21,13 +21,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
     const fetchCart = async () => {
       try {
         const token = await AuthToken();
-        const res = await axios.get(`${API_URL}/cart`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        // console.log("Fetched cart:", res.data);
-        setCart(res.data.items || []);
+        if (token) {
+          const res = await axios.get(`${API_URL}/cart`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          // console.log("Fetched cart:", res.data);
+          setCart(res.data.items || []);
+        }
       } catch (err) {
         console.error("Failed to fetch cart:", err);
         setCart([]);
@@ -39,7 +41,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const addToCart = async (item: CartItem) => {
     try {
       const token = await AuthToken();
-
+      if (!token) {
+        return alert("Login first");
+      }
       await axios.post(
         `${API_URL}/cart`,
         {
@@ -68,15 +72,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
         return [...prev, item];
       });
-      alert("added to cart")
+      alert("added to cart");
     } catch (err) {
       console.error("Add to cart failed:", err);
-      alert("try again")
+      alert("try again");
     }
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart,setCart }}>
+    <CartContext.Provider value={{ cart, addToCart, setCart }}>
       {children}
     </CartContext.Provider>
   );
