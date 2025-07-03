@@ -1,6 +1,8 @@
 # 🍽️ Local Bite
 
-**Local Bite** is a Food Sharing Community platform that connects hotels, restaurants, and food vendors with individuals in need or those looking for affordable meals. Vendors can sell surplus food at discounted prices or donate it to the community. Users can claim donations or purchase low-cost meals with ease and dignity.
+**Local Bite** is a Food Sharing Community platform that connects hotels, restaurants, and food vendors with individuals in need or those looking for affordable meals. Vendors can sell surplus food at discounted prices or donate it to the community. Users can claim donations or purchase low-cost meals with ease and dignity.Local Bite is a full-stack web application that connects local food vendors with nearby customers, making it easy to browse meals, manage a cart, and complete secure checkouts. The platform supports local businesses by providing a simple and efficient food ordering experience.
+
+Built with Next.js, React Context API, and Tailwind CSS on the frontend, it ensures a fast, responsive, and visually appealing UI. The backend is powered by Node.js, Express.js, and MongoDB, with Stripe integration for secure payment processing.
 
 ---
 
